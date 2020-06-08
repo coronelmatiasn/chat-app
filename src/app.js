@@ -6,6 +6,8 @@ const socketio = require('socket.io');
 const { generateMessage } = require('./utils/messages');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 
+require('./db/mongoose.js');
+
 const publicDirectoryPath = path.join(__dirname, '../public');
 
 const app = express();

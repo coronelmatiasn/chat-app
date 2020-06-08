@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "node": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "db-start": "/Users/Fati/mongodb/bin/mongod.exe --dbpath=/Users/Fati/mongodb-data"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "mongoose": "^5.9.18",
+    "socket.io": "^2.3.0",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
