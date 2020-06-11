@@ -3,6 +3,8 @@ const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
 
+const userRouter = require('./routes/users');
+
 const { generateMessage } = require('./utils/messages');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 
@@ -17,6 +19,9 @@ const io = socketio(server);
 const port = process.env.PORT || 3000;
 
 app.use(express.static(publicDirectoryPath));
+app.use(express.json());
+
+app.use(userRouter);
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection');
