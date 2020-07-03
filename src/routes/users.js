@@ -18,4 +18,17 @@ usersRoute.route('/users')
         }
     });
 
+usersRoute.route('/login')
+    .post(async (req, res) => {
+        var { username, password } = req.body;
+
+        try {
+            var user = await User.find({ username });
+
+            res.send(user);
+        } catch (e) {
+            res.status(400).send(e);
+        }
+    });
+
 module.exports = usersRoute;
