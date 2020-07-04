@@ -18,11 +18,11 @@ const io = socketio(server);
 
 const port = process.env.PORT || 3000;
 
-app.use(userRouter);
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicDirectoryPath));
 app.use(express.json());
+
+app.use(userRouter);
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection');

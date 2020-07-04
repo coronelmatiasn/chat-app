@@ -18,7 +18,7 @@ body {
     font-family: sans-serif;
 }
 
-/** INDEX **/
+/** Forms **/
 .centered-form {
     display: flex;
     justify-content: center;
@@ -68,13 +68,21 @@ body {
     border: 2px solid white;
     background: transparent;
     align-self: center;
-    margin: 2rem 0 5rem;
+    margin: 2rem 0;
     transition: all .2s ease-out;
 }
 
-.centered-form__box form button:hover {
+.centered-form__box form button:hover,
+.centered-form__box form [type="submit"]:hover {
     background: white;
     color: #6c179c;
+}
+
+.centered-form__box a {
+    color: white;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.6rem;
 }
 
 /** CHAT PAGE **/
