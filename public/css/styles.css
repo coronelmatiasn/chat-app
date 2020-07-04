@@ -28,7 +28,6 @@ body {
 
 .centered-form__box {
     width: 35%;
-    height: 35rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,7 +59,8 @@ body {
     padding: 1rem;
 }
 
-.centered-form__box form button {
+.centered-form__box form button,
+.centered-form__box form [type="submit"] {
     cursor: pointer;
     width: 50%;
     padding: 1rem;
@@ -68,7 +68,7 @@ body {
     border: 2px solid white;
     background: transparent;
     align-self: center;
-    margin: 2rem 0;
+    margin: 2rem 0 5rem;
     transition: all .2s ease-out;
 }
 

@@ -6,7 +6,7 @@ var usersRoute = express.Router();
 usersRoute.route('/users')
     .post(async (req, res) => {
         var { username, password, email } = req.body;
-
+        
         try {
             var user = new User({ username, password, email });
 
