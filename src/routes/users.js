@@ -1,12 +1,13 @@
-var express = require('express');
-var User = require('../models/User');
+const express = require('express');
+const User = require('../models/User');
+const auth = require('../middlewares/auth');
 
 var usersRoute = express.Router();
 
 usersRoute.route('/users')
     .post(async (req, res) => {
         var { username, password, email } = req.body;
-        
+
         try {
             var user = new User({ username, password, email });
 
@@ -33,6 +34,11 @@ usersRoute.route('/login')
         } catch (e) {
             res.status(400).send(e.message);
         }
+    });
+
+usersRoute.route('/chat.html')
+    .get(auth, (req, res) => {
+       return hola; 
     });
 
 module.exports = usersRoute;

@@ -14,7 +14,7 @@ const auth = async (req, res, next) => {
 
         next();
     } catch (e) {
-        res.status(401).send({ error: 'Please Authenticate' });
+        res.redirect('/login.html');
     }
 }
 
