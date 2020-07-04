@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var validator = require('validator');
 var uniqueValidator = require('mongoose-unique-validator');
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
     username: {
@@ -13,7 +14,7 @@ var userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        require: true,
+        required: true,
         minlength: 8
     },
     email: {
@@ -24,10 +25,41 @@ var userSchema = new mongoose.Schema({
             validator: email => validator.isEmail(email),
             message: props => 'Please insert a valid email.'
         }
-    }
+    },
+    tokens: [
+        {
+            token: { 
+                type: String,
+                required: true
+            }
+        }
+    ]
 });
 
 userSchema.plugin(uniqueValidator);
+
+userSchema.statics.findOneByCredentials = async function(email, password) {
+    var user = await User.findOne({ email });
+
+    if (!user) throw new Error('Unable to login.');
+
+    var match = await bcrypt.compare(password, user.password);
+
+    if (!match) throw new Error('Unable to login.');
+    
+    return user;
+}
+
+userSchema.methods.generateAuthToken = async function() {
+    var user = this;
+    var token = jwt.sign({ _id: user._id.toString() }, "MYSECRETKEY");
+    
+    user.tokens = user.tokens.concat({ token });
+
+    await user.save();
+
+    return token;
+}
 
 userSchema.pre('save', async function(next) {
     const user = this;

@@ -12,7 +12,9 @@ usersRoute.route('/users')
 
             await user.save();
 
-            res.status(200).send(user);
+            var token = await user.generateAuthToken();
+
+            res.status(200).send({ user, token });
         } catch (e) {
             res.status(400).send(e);
         }
@@ -20,14 +22,16 @@ usersRoute.route('/users')
 
 usersRoute.route('/login')
     .post(async (req, res) => {
-        var { username, password } = req.body;
+        var { email, password } = req.body;
 
         try {
-            var user = await User.find({ username });
+            var user = await User.findOneByCredentials(email, password);
 
-            res.send(user);
+            var token = await user.generateAuthToken();
+
+            res.send({ user, token });
         } catch (e) {
-            res.status(400).send(e);
+            res.status(400).send(e.message);
         }
     });
 
