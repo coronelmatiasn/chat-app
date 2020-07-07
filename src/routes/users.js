@@ -2,9 +2,9 @@ const express = require('express');
 const User = require('../models/User');
 const auth = require('../middlewares/auth');
 
-var usersRoute = express.Router();
+var usersRouter = express.Router();
 
-usersRoute.route('/users')
+usersRouter.route('/users')
     .post(async (req, res) => {
         var { username, password, email } = req.body;
 
@@ -15,13 +15,17 @@ usersRoute.route('/users')
 
             var token = await user.generateAuthToken();
 
-            res.status(200).send({ user, token });
+            res.status(200).cookie('token', token, {
+                maxAge: 60 * 60 * 24 * 7,
+                secure: false,
+                httpOnly: true
+            });
         } catch (e) {
             res.status(400).send(e);
         }
     });
 
-usersRoute.route('/login')
+usersRouter.route('/login')
     .post(async (req, res) => {
         var { email, password } = req.body;
 
@@ -30,15 +34,14 @@ usersRoute.route('/login')
 
             var token = await user.generateAuthToken();
 
-            res.send({ user, token });
+            res.status(200).cookie('token', token, {
+                maxAge: 60 * 60 * 24 * 7,
+                secure: false,
+                httpOnly: true
+            }).redirect('/');
         } catch (e) {
             res.status(400).send(e.message);
         }
     });
 
-usersRoute.route('/chat.html')
-    .get(auth, (req, res) => {
-       return hola; 
-    });
-
-module.exports = usersRoute;
+module.exports = usersRouter;

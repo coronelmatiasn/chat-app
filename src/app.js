@@ -2,8 +2,10 @@ const path = require('path');
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
+const cookieParser = require('cookie-parser');
 
 const userRouter = require('./routes/users');
+const chatRouter = require('./routes/chat');
 
 const { generateMessage } = require('./utils/messages');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
@@ -18,11 +20,18 @@ const io = socketio(server);
 
 const port = process.env.PORT || 3000;
 
+app.use(cookieParser(
+    null, 
+    { maxAge: 60 * 60 * 24 * 30 }
+));
+
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 
 app.use(userRouter);
+app.use(chatRouter);
+
+app.use(express.static(publicDirectoryPath));
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection');
