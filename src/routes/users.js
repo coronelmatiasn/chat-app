@@ -19,11 +19,20 @@ usersRouter.route('/users')
                 maxAge: 60 * 60 * 24 * 7,
                 secure: false,
                 httpOnly: true
-            });
+            }).redirect('/');
         } catch (e) {
             res.status(400).send(e);
         }
     });
+
+usersRouter.route('/users/me')
+    .get(auth, (req, res) => {
+        try {
+            res.status(200).send(req.user);
+        } catch(e) {
+            res.status(401).send('Can\'t get user info.');
+        }
+    })
 
 usersRouter.route('/login')
     .post(async (req, res) => {
